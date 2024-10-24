@@ -14,6 +14,22 @@ const Weather = () => {
 
     const [weatherData, setWeatherData] = useState(false);
 
+    const allIcons = {
+        "01d": clear_icon,
+        "01n": clear_icon,
+        "02d": clear_icon,
+        "02n": clear_icon,
+        "03d": clear_icon,
+        "04d": drizzle_icon,
+        "04n": drizzle_icon,
+        "09d": rain_icon,
+        "09n": rain_icon,
+        "10d": rain_icon,
+        "10n": rain_icon,
+        "13d": snow_icon,
+        "13n": snow_icon,
+    }
+
     const search = async (city) => {
         try {
             const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${import.meta.env.VITE_APP_ID}`;
@@ -21,12 +37,13 @@ const Weather = () => {
             const response = await fetch(url);
             const data = await response.json();
             console.log(data);
+            const icon = allIcons[data.Weather[0].icon] || cloud_icon;
             setWeatherData({
                 humidity: data.main.humidity,
                 windspeed: data.wind.speed,
                 temperature: Math.floor(data.main.temp),
                 location: data.name,
-                icon: ""
+                icon: icon
 
             })
 
@@ -35,7 +52,7 @@ const Weather = () => {
         }
     }
     useEffect(() =>{
-        search("London");
+        search("India");
     },[])
 
     return (
@@ -46,20 +63,20 @@ const Weather = () => {
 
         </div>
         <img src={clear_icon} alt="" className='weather-icon' />
-        <p className='temperature'>16°c</p>
-        <p className='location'>London</p>
+        <p className='temperature'>{weatherData.temperature}°c</p>
+        <p className='location'>{weatherData.location}</p>
         <div className="weather-data">
             <div className="col">
                 <img src={humidity_icon} alt="" />
                 <div>
-                    <p>91%</p>
+                    <p>{weatherData.humidity} %</p>
                     <span>Humidity</span>
                 </div>
             </div>
             <div className="col">
                 <img src={wind_icon} alt="" />
                 <div>
-                    <p>3.6 km/h</p>
+                    <p>{weatherData.windspeed}</p>
                     <span>Wind Speed</span>
                 </div>
             </div>
