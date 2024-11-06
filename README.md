@@ -1,5 +1,5 @@
 **Weather App**
-A React weather application that displays the current weather conditions for a user-specified location.
+A React.js weather application that displays the current weather conditions for a user-specified location.
 **Features**
 * Displays current temperature, humidity, and wind speed
 * Ability to search for a location by city name
